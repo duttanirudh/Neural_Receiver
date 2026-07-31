@@ -2,11 +2,6 @@ import math
 import torch
 import torch.nn.functional as F
 
-
-############################################################
-# Main Channel Pipeline
-############################################################
-
 def apply_channel(
         
     tx_symbols,
@@ -17,36 +12,23 @@ def apply_channel(
     estimation_error_std=0.05,
 ):
 
-    ########################################################
-    # Multipath Rayleigh Channel
-    ########################################################
-
     rx, channel = apply_frequency_selective_rayleigh(
         tx_symbols,
         num_taps=num_taps,
     )
 
-    ########################################################
-    # Amplitude Attenuation
-    ########################################################
 
     rx, attenuation = apply_amplitude_attenuation(
         rx,
         attenuation_range,
     )
 
-    ########################################################
-    # Phase Rotation
-    ########################################################
 
     rx, phase = apply_phase_distortion(
         rx,
         phase_range,
     )
 
-    ########################################################
-    # Add White Gaussian Noise
-    ########################################################
 
     snr_db = torch.empty(
         1,
@@ -61,9 +43,6 @@ def apply_channel(
         snr_db,
     )
 
-    ########################################################
-    # Imperfect Channel Estimate
-    ########################################################
 
     estimated_channel = apply_channel_estimation_error(
         channel,
@@ -79,11 +58,6 @@ def apply_channel(
     }
 
     return rx, info
-
-
-############################################################
-# AWGN
-############################################################
 
 def apply_awgn(signal, snr_db):
 
@@ -103,11 +77,6 @@ def apply_awgn(signal, snr_db):
 
     return signal + noise
 
-
-############################################################
-# Flat Amplitude Loss
-############################################################
-
 def apply_amplitude_attenuation(
     signal,
     attenuation_range,
@@ -125,11 +94,6 @@ def apply_amplitude_attenuation(
     )
 
     return signal * alpha, alpha
-
-
-############################################################
-# Phase Offset
-############################################################
 
 def apply_phase_distortion(
     signal,
@@ -151,10 +115,6 @@ def apply_phase_distortion(
 
     return signal, theta
 
-
-############################################################
-# Frequency Selective Rayleigh Channel
-############################################################
 
 def apply_frequency_selective_rayleigh(
     signal,
@@ -190,11 +150,6 @@ def apply_frequency_selective_rayleigh(
         output += taps[:, k:k+1] * delayed
 
     return output, taps
-
-
-############################################################
-# Imperfect Channel Estimate
-############################################################
 
 def apply_channel_estimation_error(
     channel,

@@ -25,13 +25,7 @@ class Dataset(IterableDataset):
         self.return_channel = return_channel
 
     def generate_bits(self):
-        """
-        Generate random binary messages.
-
-        Shape:
-            (batch_size, bits_per_message)
-        """
-
+        
         return torch.randint(
             low=0,
             high=2,
