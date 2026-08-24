@@ -1,3 +1,2 @@
 # Neural_Receiver
-project documentation here
-NOTE - THIS CODE IS OLD AND THERE HAVE BEEN MANY REVISIONS OVER TIME. THIS IS PROBABLY THE FIRST OR 2ND VERSION OF THE CODE.
+The codebase is updated with the final scripts. 2 scripts, modulation.py and sanity_check.py are outdated and will be removed after I figure out how to.
